@@ -68,9 +68,9 @@ session = sessionmaker()(bind=engine)
 # users = session.query(User).filter_by(name='zeyad').all()
 # print(users)
 
-users = session.query(User).limit(5).all()
-print(users)
+# users = session.query(User).limit(5).all()
+# print(users)
 
 
-users = session.query(User).offset(1).limit(5).all()
-print(users)
+# users = session.query(User).offset(1).limit(5).all()
+# print(users)
