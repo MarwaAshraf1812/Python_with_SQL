@@ -22,7 +22,6 @@ class User(Base):
         self.LastName = LastName
         self.ProfileName = ProfileName
         self.Email = Email
-
 class Post(Base):
     __tablename__ = "posts"
     Post_id = Column("PostID", String(36), primary_key=True,  default=lambda: str(uuid.uuid4()))
@@ -35,4 +34,21 @@ class Post(Base):
     def __init__(self, User_id, PostContent):
         self.User_id = User_id
         self.PostContent = PostContent
+
+def addUser(FirstName, LastName, ProfileName, Email, session):
+    exist = session.query(User).filter(User.Email==Email).all()
+    if len(exist) > 0:
+        print("user already exist")
+    else:
+        user = User(FirstName, LastName, ProfileName, Email)
+        session.add(user)
+        session.commit()
+        print("user added to db")
+
+def addPost(User_id, PostContent, session):
+    post = Post(User_id, PostContent)
+    session.add(post)
+    session.commit()
+    print("post added to db")
+
 Base.metadata.create_all(bind=engine)
