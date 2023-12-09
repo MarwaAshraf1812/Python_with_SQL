@@ -64,6 +64,11 @@ session = sessionmaker()(bind=engine)
 # PostContent = "The first post from third user"
 # addPost(User_id, PostContent, session)
 
-# User_id = "ecdc4152-1a3f-44f0-87b7-2638a5bcdb80"
-# PostContent = "The second post from third user"
+User_id = "ecdc4152-1a3f-44f0-87b7-2638a5bcdb80"
+PostContent = "The second post from third user"
 # addPost(User_id, PostContent, session)
+
+allPosts = session.query(Post).filter(Post.User_id == User_id).all()
+
+postsFilterByUser = [p.PostContent for p in allPosts]
+print(postsFilterByUser)

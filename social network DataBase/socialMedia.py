@@ -27,9 +27,9 @@ class Post(Base):
     Post_id = Column("PostID", String(36), primary_key=True,  default=lambda: str(uuid.uuid4()))
     User_id = Column("UserID", String(36), ForeignKey("users.UserID"), nullable=False)
     PostContent = Column("PostContent", String(50), nullable=False)
-
+    
     def __repr__(self):
-        return f"Post(Post_id={self.Post_id}, User_id={self.User_id}, Post={self.Post})"
+        return f"Post(Post_id={self.Post_id}, User_id={self.User_id}, PostContent={self.PostContent})"
 
     def __init__(self, User_id, PostContent):
         self.User_id = User_id
