@@ -1,4 +1,4 @@
-from socialMedia import User, Post, addPost, addUser
+from socialMedia import User, Post, Like, addPost, addUser, addLike
 from sqlalchemy.orm import sessionmaker
 from dataBase import engine
 
@@ -64,11 +64,37 @@ session = sessionmaker()(bind=engine)
 # PostContent = "The first post from third user"
 # addPost(User_id, PostContent, session)
 
+#Create a post
 User_id = "ecdc4152-1a3f-44f0-87b7-2638a5bcdb80"
-PostContent = "The second post from third user"
+# PostContent = "The second post from third user"
 # addPost(User_id, PostContent, session)
 
-allPosts = session.query(Post).filter(Post.User_id == User_id).all()
+# allPosts = session.query(Post).filter(Post.User_id == User_id).all()
 
-postsFilterByUser = [p.PostContent for p in allPosts]
-print(postsFilterByUser)
+# postsFilterByUser = [p.PostContent for p in allPosts]
+# print(postsFilterByUser)
+
+#add like
+# User_id = "ecdc4152-1a3f-44f0-87b7-2638a5bcdb80"
+# Post_id = "83d017b8-137f-493a-b99b-a0a991b57dae"
+# addLike(User_id, Post_id, session)
+
+# User_id = "ecdc4152-1a3f-44f0-87b7-2638a5bcdb80"
+# Post_id = "88c592fd-9e1b-4ac5-95de-82efd26935c4"
+# addLike(User_id, Post_id, session)
+
+# User_id = "d7783248-69a9-4a16-a59e-e6460c7321dd"
+# Post_id = "88c592fd-9e1b-4ac5-95de-82efd26935c4"
+# addLike(User_id, Post_id, session)
+
+User_id = "6e63a2df-32bf-4304-8143-a905b0fd20d5"
+Post_id = "88c592fd-9e1b-4ac5-95de-82efd26935c4"
+# addLike(User_id, Post_id, session)
+
+postLikes = session.query(Like).filter(Like.PostId==Post_id).all()
+print(len(postLikes))
+
+#Join
+usersWhoLikedPost = session.query(User, Like).filter(Like.PostId == Post_id).filter(Like.UserId == User_id).all()
+for u in usersWhoLikedPost:
+    print(u["users"].FirstName, u["users"].LastName)

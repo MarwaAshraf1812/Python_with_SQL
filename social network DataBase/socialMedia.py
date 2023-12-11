@@ -27,13 +27,23 @@ class Post(Base):
     Post_id = Column("PostID", String(36), primary_key=True,  default=lambda: str(uuid.uuid4()))
     User_id = Column("UserID", String(36), ForeignKey("users.UserID"), nullable=False)
     PostContent = Column("PostContent", String(50), nullable=False)
-    
+
     def __repr__(self):
         return f"Post(Post_id={self.Post_id}, User_id={self.User_id}, PostContent={self.PostContent})"
 
     def __init__(self, User_id, PostContent):
         self.User_id = User_id
         self.PostContent = PostContent
+
+class Like(Base):
+    __tablename__ = "likes"
+    LikedId = Column("LikeID" ,String(36), primary_key=True,  default=lambda: str(uuid.uuid4()))
+    UserId = Column("UserID", String(36), ForeignKey("users.UserID"), nullable=False)
+    PostId = Column("PostID", String(36), ForeignKey("posts.PostID"), nullable=False) 
+
+    def __init__(self, UserId, PostId) -> str:
+        self.UserId = UserId
+        self.PostId = PostId
 
 def addUser(FirstName, LastName, ProfileName, Email, session):
     exist = session.query(User).filter(User.Email==Email).all()
@@ -50,5 +60,13 @@ def addPost(User_id, PostContent, session):
     session.add(post)
     session.commit()
     print("post added to db")
+
+def addLike(UserId, PostId, session):
+    like = Like(UserId, PostId)
+    session.add(like)
+    session.commit()
+    print("like was added")
+
+
 
 Base.metadata.create_all(bind=engine)
